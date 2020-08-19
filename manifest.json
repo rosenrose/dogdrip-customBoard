@@ -1,0 +1,23 @@
+{
+    "manifest_version": 2,
+    "name": "Dogdrip Custom Board",
+    "version": "1.0",
+    "description" : "Base Level Extension",
+    "browser_action": {
+        "default_popup": "options.html"
+    },
+    "permissions": [
+        "storage"
+    ],
+    "options_page": "options.html",
+    "content_scripts": [{
+        "matches": [
+            "*://www.dogdrip.net/"
+        ],
+        "exclude_matches": [
+        ],
+        "js": [
+            "script.js"
+        ]
+    }]
+}
