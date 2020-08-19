@@ -44,7 +44,7 @@ fetch("https://www.dogdrip.net/")
         }
     }
     chrome.storage.sync.get('userBoardList', data => {
-        if (data.userBoardList.length == 0) {
+        if (data.userBoardList == undefined) {
             for (let i=0; i<boardList.length; i++) {
                 userBoardList.push(boardList[i]);
             }
@@ -58,6 +58,7 @@ fetch("https://www.dogdrip.net/")
 });
 
 function userSelectUpdate() {
+    console.log(userBoardList);
     for (let i=0; i<userSelects.length; i++) {
         let options = userSelects[i].querySelectorAll("option");
         for (let j=0; j<options.length; j++) {
