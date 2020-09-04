@@ -33,7 +33,7 @@ fetch("https://www.dogdrip.net/")
         });
     }
 
-    chrome.storage.sync.get('userBoardList', data => {
+    whale.storage.sync.get('userBoardList', data => {
         if (data.userBoardList == undefined) {
             userBoardList = boardList.slice();
             save();
@@ -108,7 +108,7 @@ function setTables() {
 }
 
 document.querySelector("#reset").addEventListener("click", () => {
-    chrome.storage.sync.set({userBoardList: boardList}, ()=>{});
+    whale.storage.sync.set({userBoardList: boardList}, ()=>{});
     window.location.reload();
 });
 
@@ -133,6 +133,5 @@ document.querySelector("#none").addEventListener("click", () => {
 });
 
 function save() {
-    chrome.storage.sync.set({userBoardList: userBoardList}, ()=>{});
-    
+    whale.storage.sync.set({userBoardList: userBoardList}, ()=>{});
 }
