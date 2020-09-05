@@ -8,7 +8,7 @@ fetch("https://www.dogdrip.net/")
 .then(content => {
     content = new DOMParser().parseFromString(content,"text/html");
     boardList = content.querySelectorAll("div.eq.overflow-hidden");
-    boardList = Array.from(boardList).map(board => board.querySelector("a.eq.link").textContent.trim());
+    boardList = Array.from(boardList).map(board => board.querySelector("a").textContent.trim());
 
     for (let i=0; i<2; i++) {
         document.querySelectorAll("#original td")[i].textContent = boardList[i];

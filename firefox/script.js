@@ -1,17 +1,14 @@
-let boardList = document.querySelectorAll("div.eq.overflow-hidden");
-boardList = Array.from(boardList).slice(2);
+let boardList = Array.from(document.querySelectorAll("div.eq.overflow-hidden")).slice(2);
 for (let board of boardList) {
-    boardList[board.querySelector("a.eq.link").textContent.trim()] = board.innerHTML;
+    boardList[board.querySelector("a").textContent.trim()] = board.cloneNode(true);
 }
 
 browser.storage.sync.get('userBoardList')
 .then(data => {
     for (let i=0; i<boardList.length; i++) {
         if (i < data.userBoardList.length) {
-            boardList[i].innerHTML = boardList[data.userBoardList[i]];
+            boardList[i].parentNode.appendChild(boardList[data.userBoardList[i]]);
         }
-        else {
-            boardList[i].style.display = "none";
-        }
+        boardList[i].style.display = "none";
     }
 });
