@@ -38,10 +38,11 @@ fetch("https://www.dogdrip.net/")
             td[i].textContent = "\u00A0";
         }
     }
+    boardList = boardList.slice(2);
 
     chrome.storage.sync.get('userBoardList', data => {
         if (data.userBoardList == undefined) {
-            userBoardList = boardList.slice(2);
+            userBoardList = boardList.slice();
             save();
         }
         else {
