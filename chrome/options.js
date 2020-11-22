@@ -1,41 +1,47 @@
-let boardList = [];
-let userBoardList = [];
-let draggables = Array.from(document.querySelectorAll("#user td")).slice(2);
-let dragged;
+var boardList = [], userBoardList = [];
+var draggables = [...document.querySelectorAll("#user td")].slice(2);
+var dragged;
 
 fetch("https://www.dogdrip.net/")
 .then(response => response.text())
 .then(content => {
     content = new DOMParser().parseFromString(content,"text/html");
     boardList = content.querySelectorAll("div.eq.overflow-hidden");
-    boardList = Array.from(boardList).map(board => board.querySelector("a").textContent.trim());
+    boardList = [...boardList].map(board => board.querySelector("a").textContent.trim());
 
-    for (let i=0; i<2; i++) {
-        document.querySelectorAll("#original td")[i].textContent = boardList[i];
-    }
-    boardList = boardList.slice(2);
-
-    let labels = document.querySelectorAll("label");
-    for (let i=0; i<labels.length; i++) {
-        labels[i].appendChild(document.createTextNode(boardList[i]));
-        let input = labels[i].querySelector("input");
-        input.value = boardList[i];
-        input.addEventListener("change", event => {
-            if (event.target.checked) {
-                userBoardList.push(event.target.value);
-            }
-            else {
-                let idx = userBoardList.indexOf(event.target.value);
-                if (idx > -1) userBoardList.splice(idx, 1);
-            }
-            save();
-            setTables();
-        });
+    let td = document.querySelectorAll("#original td");
+    for (let i=0; i<td.length; i++) {
+        if (i < 2) {
+            td[i].textContent = boardList[i];
+        }
+        else if (i < boardList.length) {
+            let label = document.createElement("label");
+            let input = document.createElement("input");
+            input.type = "checkbox";
+            input.value = boardList[i];
+            input.addEventListener("change", event => {
+                if (event.target.checked) {
+                    userBoardList.push(event.target.value);
+                }
+                else {
+                    let idx = userBoardList.indexOf(event.target.value);
+                    if (idx > -1) userBoardList.splice(idx, 1);
+                }
+                save();
+                updateTable();
+            });
+            label.appendChild(input);
+            label.appendChild(document.createTextNode(boardList[i]));
+            td[i].appendChild(label);
+        }
+        else {
+            td[i].textContent = "\u00A0";
+        }
     }
 
     chrome.storage.sync.get('userBoardList', data => {
         if (data.userBoardList == undefined) {
-            userBoardList = boardList.slice();
+            userBoardList = boardList.slice(2);
             save();
         }
         else {
