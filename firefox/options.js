@@ -28,7 +28,7 @@ fetch("https://www.dogdrip.net/")
                     if (idx > -1) userBoardList.splice(idx, 1);
                 }
                 save();
-                updateTable();
+                setTables();
             });
             label.appendChild(input);
             label.appendChild(document.createTextNode(boardList[i]));
